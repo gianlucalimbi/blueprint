@@ -2,7 +2,7 @@ package com.gianlucalimbi.blueprint
 
 import androidx.lifecycle.Observer
 
-class ResourceObserver<T>(
+class ResourceObserver<T> internal constructor(
     private val onSuccess: (data: T?) -> Unit = { },
     private val onError: (error: Throwable?) -> Unit = { },
     private val onLoading: (data: T?) -> Unit = { },
