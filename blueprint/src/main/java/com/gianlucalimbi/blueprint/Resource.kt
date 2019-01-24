@@ -1,21 +1,21 @@
 package com.gianlucalimbi.blueprint
 
-class Resource<T> private constructor(
-    val status: Status,
-    val data: T? = null,
-    val error: Throwable? = null
+sealed class Resource<T> constructor(
+    private val status: Status,
+    open val data: T? = null,
+    open val error: Throwable? = null
 ) {
 
   companion object {
 
     @JvmStatic
-    fun <T> success(data: T?): Resource<T> = Resource(Status.SUCCESS, data = data)
+    fun <T> success(data: T): Resource<T> = SuccessResource(data)
 
     @JvmStatic
-    fun <T> error(error: Throwable?): Resource<T> = Resource(Status.ERROR, error = error)
+    fun <T> error(error: Throwable): Resource<T> = ErrorResource(error)
 
     @JvmStatic
-    fun <T> loading(data: T? = null): Resource<T> = Resource(Status.LOADING, data = data)
+    fun <T> loading(data: T? = null): Resource<T> = LoadingResource(data)
 
   }
 
@@ -52,3 +52,15 @@ class Resource<T> private constructor(
   }
 
 }
+
+internal class SuccessResource<T>(
+    override val data: T
+) : Resource<T>(Resource.Status.SUCCESS, data = data, error = null)
+
+internal class ErrorResource<T>(
+    override val error: Throwable
+) : Resource<T>(Resource.Status.ERROR, data = null, error = error)
+
+internal class LoadingResource<T>(
+    override val data: T?
+) : Resource<T>(Resource.Status.LOADING, data = data, error = null)
