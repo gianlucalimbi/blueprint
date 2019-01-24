@@ -1,7 +1,7 @@
 package com.gianlucalimbi.blueprint
 
 sealed class Resource<T>(
-    private val status: Status,
+    val status: Status,
     open val data: T? = null,
     open val error: Throwable? = null
 ) {
