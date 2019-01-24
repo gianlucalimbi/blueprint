@@ -1,6 +1,6 @@
 package com.gianlucalimbi.blueprint
 
-sealed class Resource<T> constructor(
+sealed class Resource<T>(
     private val status: Status,
     open val data: T? = null,
     open val error: Throwable? = null
