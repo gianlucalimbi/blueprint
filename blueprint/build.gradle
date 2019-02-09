@@ -28,7 +28,7 @@ android {
 
 dependencies {
   def lifecycle_version = "2.0.0"
-  def dagger_version = "2.20"
+  def dagger_version = "2.21"
 
   api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
