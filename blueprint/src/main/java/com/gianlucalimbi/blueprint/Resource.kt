@@ -53,14 +53,14 @@ sealed class Resource<T>(
 
 }
 
-internal class SuccessResource<T>(
+class SuccessResource<T>(
     override val data: T
 ) : Resource<T>(Resource.Status.SUCCESS, data = data, error = null)
 
-internal class ErrorResource<T>(
+class ErrorResource<T>(
     override val error: Exception
 ) : Resource<T>(Resource.Status.ERROR, data = null, error = error)
 
-internal class LoadingResource<T>(
+class LoadingResource<T>(
     override val data: T?
 ) : Resource<T>(Resource.Status.LOADING, data = data, error = null)
