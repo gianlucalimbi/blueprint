@@ -16,7 +16,7 @@ class ResourceTest {
 
   @Test
   fun `When creating an error Resource, an instance of ErrorResource is provided`() {
-    val resource = Resource.error<Any>(Exception("error"))
+    val resource = Resource.error<Any>(Throwable("error"))
 
     assertThat(resource, `is`(instanceOf(ErrorResource::class.java)))
     assertThat(resource.status, `is`(Resource.Status.ERROR))
@@ -49,7 +49,7 @@ class ResourceTest {
   @Test
   fun `When comparing a Resource with another Resource with different status, they are not equals`() {
     val resource = Resource.success(Any())
-    val other = Resource.error<Any>(Exception("error"))
+    val other = Resource.error<Any>(Throwable("error"))
 
     assertThat(resource, `is`(not(other)))
   }
@@ -64,8 +64,8 @@ class ResourceTest {
 
   @Test
   fun `When comparing a Resource with another Resource with different errors, they are not equals`() {
-    val resource = Resource.error<Any>(Exception("error"))
-    val other = Resource.error<Any>(Exception("another error"))
+    val resource = Resource.error<Any>(Throwable("error"))
+    val other = Resource.error<Any>(Throwable("another error"))
 
     assertThat(resource, `is`(not(other)))
   }
@@ -82,7 +82,7 @@ class ResourceTest {
 
   @Test
   fun `When comparing a Resource with another Resource with the same error, they are equals`() {
-    val error = Exception("error")
+    val error = Throwable("error")
 
     val resource = Resource.error<Any>(error)
     val other = Resource.error<Any>(error)

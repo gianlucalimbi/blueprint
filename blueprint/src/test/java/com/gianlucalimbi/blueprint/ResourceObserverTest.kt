@@ -11,7 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class ResourceObserverTest {
 
   @Mock private lateinit var onSuccess: (data: Any) -> Unit
-  @Mock private lateinit var onError: (error: Exception) -> Unit
+  @Mock private lateinit var onError: (error: Throwable) -> Unit
   @Mock private lateinit var onLoading: (data: Any?) -> Unit
   @Mock private lateinit var onChanged: (resource: Resource<Any>?) -> Unit
 
@@ -32,7 +32,7 @@ class ResourceObserverTest {
 
   @Test
   fun `When an error Resource is set, the onError callback is invoked`() {
-    val error = Exception("error")
+    val error = Throwable("error")
     observer.onChanged(Resource.error(error))
 
     verify(onError).invoke(error)
@@ -48,7 +48,7 @@ class ResourceObserverTest {
 
   @Test
   fun `When a Resource is set, the onChanged callback is invoked`() {
-    val resource = Resource.error<Any>(Exception("error"))
+    val resource = Resource.error<Any>(Throwable("error"))
     observer.onChanged(resource)
 
     verify(onChanged).invoke(resource)

@@ -7,7 +7,7 @@ internal annotation class ResourceObserverDsl
 class ResourceObserverBuilder<T> internal constructor() {
 
   private var onSuccess: (data: T) -> Unit = { }
-  private var onError: (error: Exception) -> Unit = { }
+  private var onError: (error: Throwable) -> Unit = { }
   private var onLoading: (data: T?) -> Unit = { }
   private var onChanged: (resource: Resource<T>?) -> Unit = { }
 
@@ -15,7 +15,7 @@ class ResourceObserverBuilder<T> internal constructor() {
     onSuccess = block
   }
 
-  fun onError(block: (data: Exception) -> Unit) {
+  fun onError(block: (data: Throwable) -> Unit) {
     onError = block
   }
 

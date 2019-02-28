@@ -3,7 +3,7 @@ package com.gianlucalimbi.blueprint
 sealed class Resource<T>(
     val status: Status,
     open val data: T? = null,
-    open val error: Exception? = null
+    open val error: Throwable? = null
 ) {
 
   companion object {
@@ -12,7 +12,7 @@ sealed class Resource<T>(
     fun <T> success(data: T): Resource<T> = SuccessResource(data)
 
     @JvmStatic
-    fun <T> error(error: Exception): Resource<T> = ErrorResource(error)
+    fun <T> error(error: Throwable): Resource<T> = ErrorResource(error)
 
     @JvmStatic
     fun <T> loading(data: T? = null): Resource<T> = LoadingResource(data)
@@ -58,7 +58,7 @@ class SuccessResource<T>(
 ) : Resource<T>(Resource.Status.SUCCESS, data = data, error = null)
 
 class ErrorResource<T>(
-    override val error: Exception
+    override val error: Throwable
 ) : Resource<T>(Resource.Status.ERROR, data = null, error = error)
 
 class LoadingResource<T>(
