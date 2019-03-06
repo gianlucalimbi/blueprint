@@ -7,8 +7,32 @@ import dagger.android.support.DaggerAppCompatActivity
 abstract class BlueprintActivity : DaggerAppCompatActivity(),
                                    BlueprintView {
 
-  override fun <T> observeLiveData(liveData: LiveData<T>, observer: Observer<T>) {
+  override fun <T> observeLiveData(
+      liveData: LiveData<T>,
+      observer: Observer<T>
+  ) {
     liveData.observe(this, observer)
+  }
+
+  override fun <T> observeLiveData(
+      liveData: LiveData<T>,
+      block: (T) -> Unit
+  ) {
+    liveData.observe(this, Observer(block))
+  }
+
+  override fun <T> observeResourceLiveData(
+      liveData: LiveData<Resource<T>>,
+      observer: ResourceObserver<T>
+  ) {
+    liveData.observe(this, observer)
+  }
+
+  override fun <T> observeResourceLiveData(
+      liveData: LiveData<Resource<T>>,
+      block: ResourceObserverBuilder<T>.() -> Unit
+  ) {
+    liveData.observe(this, resourceObserver(block))
   }
 
 }
