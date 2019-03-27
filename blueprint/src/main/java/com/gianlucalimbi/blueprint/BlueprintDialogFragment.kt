@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import dagger.android.support.DaggerDialogFragment
 
-class BlueprintDialogFragment : DaggerDialogFragment(),
-                                BlueprintView {
+abstract class BlueprintDialogFragment : DaggerDialogFragment(),
+                                         BlueprintView {
 
   override fun <T> observeLiveData(
     liveData: LiveData<T>,
