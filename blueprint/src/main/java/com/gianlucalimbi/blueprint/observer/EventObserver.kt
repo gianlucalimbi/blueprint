@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package com.gianlucalimbi.blueprint.viewmodel
+package com.gianlucalimbi.blueprint.observer
 
-import androidx.lifecycle.ViewModel
-import dagger.MapKey
-import kotlin.reflect.KClass
+import androidx.lifecycle.Observer
+import com.gianlucalimbi.blueprint.Event
 
-@MapKey
-@Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.RUNTIME)
-@MustBeDocumented
-annotation class ViewModelKey(
-  val value: KClass<out ViewModel>
-)
+open class EventObserver<T>(
+  private val withData: ((T) -> Unit)?,
+  private val includeConsumed: Boolean?,
+  private val onChanged: ((Event<T>?) -> Unit)?
+) : Observer<Event<T>> {
+
+  override fun onChanged(event: Event<T>?) {
+    onChanged?.invoke(event)
+
+    event?.withData(includeConsumed ?: false) { withData?.invoke(it) }
+  }
+
+}

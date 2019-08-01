@@ -14,16 +14,6 @@
  * limitations under the License.
  */
 
-package com.gianlucalimbi.blueprint.viewmodel
+package com.gianlucalimbi.blueprint.presenter
 
-import androidx.lifecycle.ViewModel
-import dagger.MapKey
-import kotlin.reflect.KClass
-
-@MapKey
-@Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.RUNTIME)
-@MustBeDocumented
-annotation class ViewModelKey(
-  val value: KClass<out ViewModel>
-)
+interface BlueprintPresenter

@@ -14,16 +14,31 @@
  * limitations under the License.
  */
 
-package com.gianlucalimbi.blueprint.viewmodel
+package com.gianlucalimbi.blueprint
 
-import androidx.lifecycle.ViewModel
-import dagger.MapKey
-import kotlin.reflect.KClass
+import java.util.concurrent.atomic.AtomicBoolean
 
-@MapKey
-@Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.RUNTIME)
-@MustBeDocumented
-annotation class ViewModelKey(
-  val value: KClass<out ViewModel>
-)
+/**
+ * Wrapper of information that should only be consumed once.
+ */
+data class Event<T>(
+  private val data: T
+) {
+
+  private val consumed = AtomicBoolean(false)
+
+  var hasBeenConsumed
+    get() = consumed.get()
+    private set(value) {
+      consumed.set(value)
+    }
+
+  fun withData(includeConsumed: Boolean = false, block: (T) -> Unit) {
+    if (includeConsumed || !hasBeenConsumed) {
+      hasBeenConsumed = true
+
+      block(data)
+    }
+  }
+
+}
