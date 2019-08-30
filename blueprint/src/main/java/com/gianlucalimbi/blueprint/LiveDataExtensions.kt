@@ -197,7 +197,7 @@ fun <T> LiveData<T>.compute() {
  *
  * @see Transformations.map
  */
-fun <T, R> LiveData<T>.map(block: (T?) -> R?): LiveData<R> {
+fun <T, R> LiveData<T>.map(block: (T) -> R): LiveData<R> {
   return Transformations.map(this, block)
 }
 
@@ -213,13 +213,11 @@ fun <T, R> LiveData<T>.map(block: (T?) -> R?): LiveData<R> {
  */
 fun <T, R> LiveData<Resource<T>>.mapResource(block: (T) -> R): LiveData<Resource<R>> {
   return map { resource ->
-    @Suppress("UNCHECKED_CAST")
     when (resource) {
       is SuccessResource -> Resource.success(block.invoke(resource.data))
       is ErrorResource -> Resource.error(resource.error)
       is LoadingResource -> Resource.loading(resource.data?.let { block.invoke(it) })
-      null -> null
-    } as Resource<R>?
+    }
   }
 }
 
