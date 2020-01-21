@@ -18,7 +18,6 @@ package com.gianlucalimbi.blueprint.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import dagger.android.support.DaggerFragment
 import com.gianlucalimbi.blueprint.Event
 import com.gianlucalimbi.blueprint.Resource
 import com.gianlucalimbi.blueprint.observeEventOnce
@@ -33,6 +32,7 @@ import com.gianlucalimbi.blueprint.observer.ResourceObserver
 import com.gianlucalimbi.blueprint.observer.ResourceObserverBuilder
 import com.gianlucalimbi.blueprint.observer.eventObserver
 import com.gianlucalimbi.blueprint.observer.resourceObserver
+import dagger.android.support.DaggerFragment
 
 abstract class BlueprintFragment : DaggerFragment(),
                                    BlueprintView {
@@ -41,84 +41,84 @@ abstract class BlueprintFragment : DaggerFragment(),
     liveData: LiveData<T>,
     observer: Observer<T>
   ) {
-    liveData.observe(this, observer)
+    liveData.observe(viewLifecycleOwner, observer)
   }
 
   override fun <T> observeLiveData(
     liveData: LiveData<T>,
     block: (T?) -> Unit
   ) {
-    liveData.observe(this, Observer(block))
+    liveData.observe(viewLifecycleOwner, Observer(block))
   }
 
   override fun <T> observeResourceLiveData(
     liveData: LiveData<Resource<T>>,
     observer: ResourceObserver<T>
   ) {
-    liveData.observe(this, observer)
+    liveData.observe(viewLifecycleOwner, observer)
   }
 
   override fun <T> observeResourceLiveData(
     liveData: LiveData<Resource<T>>,
     block: ResourceObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observe(this, resourceObserver(block))
+    liveData.observe(viewLifecycleOwner, resourceObserver(block))
   }
 
   override fun <T> observeEventLiveData(
     liveData: LiveData<Event<T>>,
     observer: EventObserver<T>
   ) {
-    liveData.observe(this, observer)
+    liveData.observe(viewLifecycleOwner, observer)
   }
 
   override fun <T> observeEventLiveData(
     liveData: LiveData<Event<T>>,
     block: EventObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observe(this, eventObserver(block))
+    liveData.observe(viewLifecycleOwner, eventObserver(block))
   }
 
   override fun <T> observeLiveDataOnce(
     liveData: LiveData<T>,
     observer: Observer<T>
   ) {
-    liveData.observeOnce(this, observer)
+    liveData.observeOnce(viewLifecycleOwner, observer)
   }
 
   override fun <T> observeLiveDataOnce(
     liveData: LiveData<T>,
     block: DisposableObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observeOnce(this, block)
+    liveData.observeOnce(viewLifecycleOwner, block)
   }
 
   override fun <T> observeResourceLiveDataOnce(
     liveData: LiveData<Resource<T>>,
     observer: ResourceObserver<T>
   ) {
-    liveData.observeResourceOnce(this, observer)
+    liveData.observeResourceOnce(viewLifecycleOwner, observer)
   }
 
   override fun <T> observeResourceLiveDataOnce(
     liveData: LiveData<Resource<T>>,
     block: DisposableResourceObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observeResourceOnce(this, block)
+    liveData.observeResourceOnce(viewLifecycleOwner, block)
   }
 
   override fun <T> observeEventLiveDataOnce(
     liveData: LiveData<Event<T>>,
     observer: EventObserver<T>
   ) {
-    liveData.observeEventOnce(this, observer)
+    liveData.observeEventOnce(viewLifecycleOwner, observer)
   }
 
   override fun <T> observeEventLiveDataOnce(
     liveData: LiveData<Event<T>>,
     block: DisposableEventObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observeEventOnce(this, block)
+    liveData.observeEventOnce(viewLifecycleOwner, block)
   }
 
 }
