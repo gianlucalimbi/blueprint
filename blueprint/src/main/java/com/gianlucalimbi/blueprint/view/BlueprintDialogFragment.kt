@@ -18,7 +18,6 @@ package com.gianlucalimbi.blueprint.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import dagger.android.support.DaggerDialogFragment
 import com.gianlucalimbi.blueprint.Event
 import com.gianlucalimbi.blueprint.Resource
 import com.gianlucalimbi.blueprint.observeEventOnce
@@ -33,6 +32,7 @@ import com.gianlucalimbi.blueprint.observer.ResourceObserver
 import com.gianlucalimbi.blueprint.observer.ResourceObserverBuilder
 import com.gianlucalimbi.blueprint.observer.eventObserver
 import com.gianlucalimbi.blueprint.observer.resourceObserver
+import dagger.android.support.DaggerDialogFragment
 
 abstract class BlueprintDialogFragment : DaggerDialogFragment(),
                                          BlueprintView {
@@ -41,84 +41,156 @@ abstract class BlueprintDialogFragment : DaggerDialogFragment(),
     liveData: LiveData<T>,
     observer: Observer<T>
   ) {
-    liveData.observe(viewLifecycleOwner, observer)
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observe(owner, observer)
   }
 
   override fun <T> observeLiveData(
     liveData: LiveData<T>,
     block: (T?) -> Unit
   ) {
-    liveData.observe(viewLifecycleOwner, Observer(block))
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observe(owner, Observer(block))
   }
 
   override fun <T> observeResourceLiveData(
     liveData: LiveData<Resource<T>>,
     observer: ResourceObserver<T>
   ) {
-    liveData.observe(viewLifecycleOwner, observer)
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observe(owner, observer)
   }
 
   override fun <T> observeResourceLiveData(
     liveData: LiveData<Resource<T>>,
     block: ResourceObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observe(viewLifecycleOwner, resourceObserver(block))
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observe(owner, resourceObserver(block))
   }
 
   override fun <T> observeEventLiveData(
     liveData: LiveData<Event<T>>,
     observer: EventObserver<T>
   ) {
-    liveData.observe(viewLifecycleOwner, observer)
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observe(owner, observer)
   }
 
   override fun <T> observeEventLiveData(
     liveData: LiveData<Event<T>>,
     block: EventObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observe(viewLifecycleOwner, eventObserver(block))
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observe(owner, eventObserver(block))
   }
 
   override fun <T> observeLiveDataOnce(
     liveData: LiveData<T>,
     observer: Observer<T>
   ) {
-    liveData.observeOnce(viewLifecycleOwner, observer)
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observeOnce(owner, observer)
   }
 
   override fun <T> observeLiveDataOnce(
     liveData: LiveData<T>,
     block: DisposableObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observeOnce(viewLifecycleOwner, block)
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observeOnce(owner, block)
   }
 
   override fun <T> observeResourceLiveDataOnce(
     liveData: LiveData<Resource<T>>,
     observer: ResourceObserver<T>
   ) {
-    liveData.observeResourceOnce(viewLifecycleOwner, observer)
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observeResourceOnce(owner, observer)
   }
 
   override fun <T> observeResourceLiveDataOnce(
     liveData: LiveData<Resource<T>>,
     block: DisposableResourceObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observeResourceOnce(viewLifecycleOwner, block)
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observeResourceOnce(owner, block)
   }
 
   override fun <T> observeEventLiveDataOnce(
     liveData: LiveData<Event<T>>,
     observer: EventObserver<T>
   ) {
-    liveData.observeEventOnce(viewLifecycleOwner, observer)
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observeEventOnce(owner, observer)
   }
 
   override fun <T> observeEventLiveDataOnce(
     liveData: LiveData<Event<T>>,
     block: DisposableEventObserverBuilder<T>.() -> Unit
   ) {
-    liveData.observeEventOnce(viewLifecycleOwner, block)
+    val owner = try {
+      viewLifecycleOwner
+    } catch (e: IllegalStateException) {
+      return
+    }
+
+    liveData.observeEventOnce(owner, block)
   }
 
 }

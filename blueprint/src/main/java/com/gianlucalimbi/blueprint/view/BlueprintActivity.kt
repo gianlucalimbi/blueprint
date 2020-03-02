@@ -18,7 +18,6 @@ package com.gianlucalimbi.blueprint.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import dagger.android.support.DaggerAppCompatActivity
 import com.gianlucalimbi.blueprint.Event
 import com.gianlucalimbi.blueprint.Resource
 import com.gianlucalimbi.blueprint.observeEventOnce
@@ -33,6 +32,7 @@ import com.gianlucalimbi.blueprint.observer.ResourceObserver
 import com.gianlucalimbi.blueprint.observer.ResourceObserverBuilder
 import com.gianlucalimbi.blueprint.observer.eventObserver
 import com.gianlucalimbi.blueprint.observer.resourceObserver
+import dagger.android.support.DaggerAppCompatActivity
 
 abstract class BlueprintActivity : DaggerAppCompatActivity(),
                                    BlueprintView {
