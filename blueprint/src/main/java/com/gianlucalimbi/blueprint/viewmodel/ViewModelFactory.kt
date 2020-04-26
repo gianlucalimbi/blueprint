@@ -20,16 +20,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 import javax.inject.Provider
-import javax.inject.Singleton
 
-@Singleton
 class ViewModelFactory @Inject constructor(
-  private val viewModelProviders: MutableMap<Class<out ViewModel>, Provider<ViewModel>>
+  private val viewModelProviders: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
 
-  @Suppress("UNCHECKED_CAST")
   override fun <T : ViewModel> create(viewModelClass: Class<T>): T {
-    return viewModelProviders[viewModelClass]?.get() as T
+    val creator = viewModelProviders.getOrElse(viewModelClass) {
+      viewModelProviders
+          .asIterable()
+          .firstOrNull { viewModelClass.isAssignableFrom(it.key) }
+          ?.value
+    } ?: throw IllegalArgumentException("unknown view model class: $viewModelClass")
+
+    try {
+      @Suppress("UNCHECKED_CAST")
+      return creator.get() as T
+    } catch (e: Exception) {
+      throw RuntimeException(e)
+    }
   }
 
 }

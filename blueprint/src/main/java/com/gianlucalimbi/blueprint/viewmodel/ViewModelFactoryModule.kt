@@ -16,14 +16,14 @@
 
 package com.gianlucalimbi.blueprint.viewmodel
 
-import androidx.lifecycle.ViewModel
-import dagger.MapKey
-import kotlin.reflect.KClass
+import androidx.lifecycle.ViewModelProvider
+import dagger.Binds
+import dagger.Module
 
-@MapKey
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-@Retention(AnnotationRetention.RUNTIME)
-@MustBeDocumented
-annotation class ViewModelKey(
-  val value: KClass<out ViewModel>
-)
+@Module
+abstract class ViewModelFactoryModule {
+
+  @Binds
+  abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+
+}
